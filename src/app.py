@@ -22,4 +22,34 @@ text_box.pack()
 #Configure scrollbar
 tb_scrollbar.config(command=text_box.yview)
 
+#Create menu
+main_menu = Menu(root)
+root.config(menu=main_menu)
+
+#Add file menu
+file_menu = Menu(main_menu, tearoff=False)
+main_menu.add_cascade(label="File", menu=file_menu)
+file_menu.add_command(label="New")
+file_menu.add_command(label="Open")
+file_menu.add_command(label="Save")
+file_menu.add_separator()
+file_menu.add_command(label="Exit")
+
+#Add edit menu
+edit_menu = Menu(main_menu, tearoff=False)
+main_menu.add_cascade(label="Edit", menu=edit_menu)
+edit_menu.add_command(label="Copy")
+edit_menu.add_command(label="Paste")
+edit_menu.add_separator()
+edit_menu.add_command(label="Cut")
+edit_menu.add_command(label="Undo")
+edit_menu.add_command(label="Redo")
+
+#Add help menu
+help_menu = Menu(main_menu, tearoff=False)
+main_menu.add_cascade(label="Help", menu=help_menu)
+help_menu.add_command(label="About")
+help_menu.add_command(label="Documentation")
+
+
 root.mainloop()
