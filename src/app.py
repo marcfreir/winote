@@ -33,7 +33,7 @@ file_menu.add_command(label="New")
 file_menu.add_command(label="Open")
 file_menu.add_command(label="Save")
 file_menu.add_separator()
-file_menu.add_command(label="Exit")
+file_menu.add_command(label="Exit", command=root.quit)
 
 #Add edit menu
 edit_menu = Menu(main_menu, tearoff=False)
@@ -50,6 +50,11 @@ help_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="Help", menu=help_menu)
 help_menu.add_command(label="About")
 help_menu.add_command(label="Documentation")
+
+#Add status bar to the bottom
+status_bar = Label(root, text='Ready    ', anchor=E)
+status_bar.pack(fill=X, side=BOTTOM, ipady=5)
+
 
 
 root.mainloop()
