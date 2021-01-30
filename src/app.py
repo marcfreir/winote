@@ -3,39 +3,69 @@ from tkinter import filedialog
 from tkinter import font
 
 root = Tk()
-root.title('WiNote')
-# root.iconbitmap('../_img/winote.ico')
-root.geometry('1200x660')
+root.title("WiNote")
+# root.iconbitmap("../_img/winote.ico")
+root.geometry("1200x660")
 
-#Create main frame
+# Create new file
+def new_file():
+    # Delete previous text
+    text_box.delete("1.0", END)
+    # Update status bar
+    root.title("New File - wiNote")
+    status_bar.config(text="New File       ")
+
+# Open file
+def open_file():
+    # Delete previous text
+    text_box.delete("1.0", END)
+    # Grab filename
+    text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html, *.htm"), ("Python Files", "*.py"), ("All Files", "*.*")))
+    # Update status bar
+    name = text_file
+    status_bar.config(text=f"{name}        ")
+    name = name.replace("C:/", "~")
+    root.title(f"{name} - wiNote")
+
+    # Open the file
+    text_file = open(text_file, "r", encoding="utf8")
+    content = text_file.read()
+    # Add file content to text box
+    text_box.insert(END, content)
+    # Close the opened file
+    text_file.close()
+
+
+# Create main frame
 main_frame = Frame(root)
 main_frame.pack(pady=5)
-#Create scrollbar for the text box
+# Create scrollbar for the text box
 tb_scrollbar = Scrollbar(main_frame)
 tb_scrollbar.pack(side=RIGHT, fill=Y)
 
-#Create text box
+# Create text box
 text_box = Text(main_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=tb_scrollbar.set)
-#text_box = Text(m_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
+# text_box = Text(m_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
 text_box.pack()
 
-#Configure scrollbar
+# Configure scrollbar
 tb_scrollbar.config(command=text_box.yview)
 
-#Create menu
+# Create menu
 main_menu = Menu(root)
 root.config(menu=main_menu)
 
-#Add file menu
+# Add file menu
 file_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="File", menu=file_menu)
-file_menu.add_command(label="New")
-file_menu.add_command(label="Open")
+file_menu.add_command(label="New", command=new_file)
+file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save")
+file_menu.add_command(label="Save As")
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
 
-#Add edit menu
+# Add edit menu
 edit_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="Edit", menu=edit_menu)
 edit_menu.add_command(label="Copy")
@@ -45,14 +75,14 @@ edit_menu.add_command(label="Cut")
 edit_menu.add_command(label="Undo")
 edit_menu.add_command(label="Redo")
 
-#Add help menu
+# Add help menu
 help_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="Help", menu=help_menu)
 help_menu.add_command(label="About")
 help_menu.add_command(label="Documentation")
 
-#Add status bar to the bottom
-status_bar = Label(root, text='Ready    ', anchor=E)
+# Add status bar to the bottom
+status_bar = Label(root, text="Ready        ", anchor=E)
 status_bar.pack(fill=X, side=BOTTOM, ipady=5)
 
 
