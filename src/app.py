@@ -21,7 +21,7 @@ def open_file():
     # Delete previous text
     text_box.delete("1.0", END)
     # Grab filename
-    text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html, *.htm"), ("Python Files", "*.py"), ("All Files", "*.*")))
+    text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html, *.htm"), ("Python Files", "*.py"), ("wiNote Files", "*.wnt"), ("All Files", "*.*")))
     # Update status bar
     name = text_file
     status_bar.config(text=f"{name}        ")
@@ -35,6 +35,23 @@ def open_file():
     text_box.insert(END, content)
     # Close the opened file
     text_file.close()
+
+# Save as file
+def save_as_file():
+    text_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir="C:/", title="Save File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html, *.htm"), ("Python Files", "*.py"), ("wiNote Files", "*.wnt"), ("All Files", "*.*")))
+    if text_file:
+        name = text_file
+        # Update status bar
+        status_bar.config(text=f"Saved: {name}        ")
+        name = name.replace("C:/", "~")
+        root.title(f"{name} - wiNote")
+        # Save the file
+        text_file = open(text_file, "w")
+        text_file.write(text_box.get(1.0, END))
+        # Close the opened file
+        text_file.close()
+
+# Save file
 
 
 # Create main frame
@@ -62,7 +79,7 @@ main_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="New", command=new_file)
 file_menu.add_command(label="Open", command=open_file)
 file_menu.add_command(label="Save")
-file_menu.add_command(label="Save As")
+file_menu.add_command(label="Save As", command=save_as_file)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
 
