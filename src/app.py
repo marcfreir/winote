@@ -3,10 +3,13 @@ from tkinter import filedialog
 from tkinter import font
 
 root = Tk()
-root.title("WiNote")
+root.title("wiNote")
 # root.iconbitmap("../_img/winote.ico")
 root.geometry("1200x660")
 root.configure(bg="#1e2024")
+
+global check_file_name
+check_file_name = False
 
 # Create new file
 def new_file():
@@ -16,12 +19,20 @@ def new_file():
     root.title("New File - wiNote")
     status_bar.config(text="New File       ")
 
+    global check_file_name
+    check_file_name = False
+
 # Open file
 def open_file():
     # Delete previous text
     text_box.delete("1.0", END)
     # Grab filename
     text_file = filedialog.askopenfilename(initialdir="C:/", title="Open File", filetypes=(("Text Files", "*.txt"), ("HTML Files", "*.html, *.htm"), ("Python Files", "*.py"), ("wiNote Files", "*.wnt"), ("All Files", "*.*")))
+    # Check if there is a file name
+    if text_file:
+        # Make filename global to access later
+        global check_file_name
+        check_file_name = text_file
     # Update status bar
     name = text_file
     status_bar.config(text=f"{name}        ")
@@ -52,7 +63,18 @@ def save_as_file():
         text_file.close()
 
 # Save file
-
+def save_file():
+    global check_file_name
+    if check_file_name:
+        # Save the file
+        text_file = open(check_file_name, "w")
+        text_file.write(text_box.get(1.0, END))
+        # Close the opened file
+        text_file.close()
+        # Update status bar
+        status_bar.config(text=f"Saved: {check_file_name}        ")
+    else:
+        save_as_file()
 
 # Create main frame
 main_frame = Frame(root)
@@ -78,7 +100,7 @@ file_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="File", menu=file_menu)
 file_menu.add_command(label="New", command=new_file)
 file_menu.add_command(label="Open", command=open_file)
-file_menu.add_command(label="Save")
+file_menu.add_command(label="Save", command=save_file)
 file_menu.add_command(label="Save As", command=save_as_file)
 file_menu.add_separator()
 file_menu.add_command(label="Exit", command=root.quit)
