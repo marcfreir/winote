@@ -84,7 +84,7 @@ tb_scrollbar = Scrollbar(main_frame)
 tb_scrollbar.pack(side=RIGHT, fill=Y)
 
 # Create text box
-text_box = Text(main_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="#b8f900", selectforeground="#fe3fa2", foreground="white", undo=True, yscrollcommand=tb_scrollbar.set, bg="#1e2024")
+text_box = Text(main_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="#b8f900", selectforeground="#fe3fa2", foreground="white", undo=True, yscrollcommand=tb_scrollbar.set, bg="#1e2024", highlightthickness=0, borderwidth=0)
 # text_box = Text(m_frame, width=97, height=25, font=("Helvetica", 16), selectbackground="yellow", selectforeground="black", undo=True, yscrollcommand=text_scroll.set, wrap="none", xscrollcommand=hor_scroll.set)
 text_box.pack()
 
