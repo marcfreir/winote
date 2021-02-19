@@ -11,6 +11,9 @@ root.configure(bg="#1e2024")
 global check_file_name
 check_file_name = False
 
+global selected
+selected = False
+
 # Create new file
 def new_file():
     # Delete previous text
@@ -75,6 +78,24 @@ def save_file():
         status_bar.config(text=f"Saved: {check_file_name}        ")
     else:
         save_as_file()
+# Copy text
+def copy_text(something):
+    pass
+
+# Paste text
+def paste_text(something):
+    if selected:
+        position = text_box.index(INSERT)
+        text_box.insert(position, selected)
+# Cut text
+def cut_text(something):
+    global selected
+    if text_box.selection_get():
+        # Grab selected text from text box
+        selected = text_box.selection_get()
+        # Delete slected text from text box
+        text_box.delete("sel.first", "sel.last")
+
 
 # Create main frame
 main_frame = Frame(root)
@@ -108,10 +129,10 @@ file_menu.add_command(label="Exit", command=root.quit)
 # Add edit menu
 edit_menu = Menu(main_menu, tearoff=False)
 main_menu.add_cascade(label="Edit", menu=edit_menu)
-edit_menu.add_command(label="Copy")
-edit_menu.add_command(label="Paste")
+edit_menu.add_command(label="Copy", command=lambda: copy_text(False))
+edit_menu.add_command(label="Paste", command=lambda: paste_text(False))
 edit_menu.add_separator()
-edit_menu.add_command(label="Cut")
+edit_menu.add_command(label="Cut", command=lambda: cut_text(False))
 edit_menu.add_command(label="Undo")
 edit_menu.add_command(label="Redo")
 
