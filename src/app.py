@@ -80,7 +80,10 @@ def save_file():
         save_as_file()
 # Copy text
 def copy_text(something):
-    pass
+    global selected
+    if text_box.selection_get():
+        # Grab selected text from text box
+        selected = text_box.selection_get()
 
 # Paste text
 def paste_text(something):
